@@ -503,57 +503,25 @@ function copyTextToClipboardAndPrompt(text, promptMessage) {
 // Auto-update every minute to keep the progress fresh if the page is left open
 setInterval(calculateAndDisplayProgress, 60000);
 
-// 在文件最顶部加入调试函数
-function logDebug(message) {
-    console.log(`[DEBUG] ${message}`);
-    // 也可以考虑在页面上显示调试信息
-    const debugInfo = document.createElement('div');
-    debugInfo.style.position = 'fixed';
-    debugInfo.style.top = '10px';
-    debugInfo.style.right = '10px';
-    debugInfo.style.background = 'rgba(255,0,0,0.8)';
-    debugInfo.style.color = 'white';
-    debugInfo.style.padding = '5px';
-    debugInfo.style.zIndex = '9999';
-    debugInfo.style.maxWidth = '80%';
-    debugInfo.textContent = message;
-    document.body.appendChild(debugInfo);
-
-    // 3秒后自动移除
-    setTimeout(() => {
-        if (document.body.contains(debugInfo)) {
-            document.body.removeChild(debugInfo);
-        }
-    }, 3000);
-}
-
 // 更新window.load事件中的分享文本生成逻辑
 window.addEventListener('load', function() {
-    logDebug('页面完全加载，尝试绑定分享按钮事件');
-
     // 尝试查找按钮
     const weiboButton = document.querySelector('button[data-platform="weibo"]');
     const twitterButton = document.querySelector('button[data-platform="twitter"]');
 
-    logDebug(`找到微博按钮: ${weiboButton !== null}, 找到X按钮: ${twitterButton !== null}`);
-
     // 使用内联函数直接处理微博分享
     if (weiboButton) {
         weiboButton.onclick = function() {
-            logDebug('微博按钮被点击');
             try {
                 // 使用与复制功能完全相同的文本生成函数
                 const shareText = generateProgressTextForCopy();
                 const weiboUrl = `http://service.weibo.com/share/share.php?title=${encodeURIComponent(shareText)}`;
-                logDebug(`尝试打开微博分享链接: ${weiboUrl}`);
                 const newWindow = window.open(weiboUrl, '_blank');
 
                 if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                    logDebug('弹窗被阻止！请允许浏览器弹窗或尝试使用复制功能。');
                     alert('弹窗被阻止！请允许浏览器弹窗或尝试使用复制功能。');
                 }
             } catch (error) {
-                logDebug(`微博分享出错: ${error.message}`);
                 alert(`分享出错: ${error.message}`);
             }
             return false; // 阻止默认行为
@@ -563,20 +531,16 @@ window.addEventListener('load', function() {
     // 使用内联函数直接处理X分享
     if (twitterButton) {
         twitterButton.onclick = function() {
-            logDebug('X按钮被点击');
             try {
                 // 使用与复制功能完全相同的文本生成函数
                 const shareText = generateProgressTextForCopy();
                 const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-                logDebug(`尝试打开X分享链接: ${twitterUrl}`);
                 const newWindow = window.open(twitterUrl, '_blank');
 
                 if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                    logDebug('弹窗被阻止！请允许浏览器弹窗或尝试使用复制功能。');
                     alert('弹窗被阻止！请允许浏览器弹窗或尝试使用复制功能。');
                 }
             } catch (error) {
-                logDebug(`X分享出错: ${error.message}`);
                 alert(`分享出错: ${error.message}`);
             }
             return false; // 阻止默认行为
@@ -592,11 +556,9 @@ window.addEventListener('load', function() {
             // 使用与复制功能完全相同的文本生成函数
             const shareText = generateProgressTextForCopy();
 
-            logDebug(`尝试复制分享文本 (${platform}): ${shareText}`);
             navigator.clipboard.writeText(shareText).then(() => {
                 alert(`分享内容已复制到剪贴板！您可以手动粘贴到${platform}。`);
             }).catch(err => {
-                logDebug(`复制失败: ${err.message}`);
                 alert(`复制失败: ${err.message}，请手动复制内容。`);
             });
         });
