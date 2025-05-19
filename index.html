@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>年度进度</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <div class="container" id="captureArea">
+        <h1 id="mainTitle">今年已过多少？</h1>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p id="currentDateText" class="date-display">2025 年 5 月 19 日</p>
+        <div id="calendarContainer" class="calendar-container">
+        </div>
+    </div>
+
+    <div class="global-actions-container">
+        <div class="language-switcher">
+            <button id="langZh" class="active">中</button>
+            <button id="langEn">En</button>
+        </div>
+        <div class="core-actions">
+            <button id="copyProgressBtn" class="action-button simple-btn">📋 复制文本</button>
+            <button id="exportImageBtn" class="action-button simple-btn">📷 导出图片</button>
+        </div>
+        <div class="social-share-buttons">
+            <button class="social-button action-button simple-btn" data-platform="weibo" aria-label="分享到微博">分享到微博</button>
+            <button class="social-button action-button simple-btn" data-platform="twitter" aria-label="分享到 X">分享到 X</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
